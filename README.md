@@ -37,9 +37,9 @@ Both numbers and opperations are attributes of the calculator. To use it, chain 
 ### Splitting an operation
 
 1. kata.Cal.one # Returns None
-1. # do something
+1. pass # do something
 1. kata.Cal.plus # Returns None
-1. # do some other thing
+1. pass # do some other thing
 1. kata.Cal.two # Returns three
 
 ### Several operations with hundreds 
