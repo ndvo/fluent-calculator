@@ -1,52 +1,5 @@
 #!/usr/bin/python3
 
-class Number():
-    """ An enriched number to allow for a more intuitive syntax."""
-    mmethods = ['add', 'sub', 'mul', 'floordiv', 'truediv', 'mod', 'pow']
-    boolmmethods = [ 'lt', 'le', 'eq', 'ne', 'ge', 'gt' ]
-
-    def __init__(self, value):
-        self.value = value
-    
-    @property
-    def hundred(self):
-        return Number(self.value * 100)
-
-    @property
-    def thousand(self):
-        return Number(self.value * 1000)
-    
-    def __str__(self):
-        return str(self.value)
-
-    def operation(self, mmethod):
-        op = mmethod
-        def do_operation(s, o):
-            try:
-                return Number(op(s.value, o.value))
-            except AttributeError:
-                return Number(op(s.value, o))
-        return do_operation
-
-    def bool_op(self, mmethod):
-        op = mmethod
-        def do_operation(s, o):
-            try:
-                return op(s.value, o.value)
-            except AttributeError:
-                return op(s.value, o)
-        return do_operation
-    
-    def __repr__(self):
-        return self.__str__()
-
-
-for m in Number.mmethods:
-    setattr(Number, "__"+m+"__", Number.operation(Number, int.__dict__["__"+m+"__"]))
-for m in Number.boolmmethods:
-    setattr(Number, "__"+m+"__", Number.bool_op(Number, int.__dict__["__"+m+"__"]))
-
-
 class Calculator():
     """ A calculator that uses fluent syntax.
 
@@ -95,10 +48,10 @@ class Calculator():
 
     @property
     def result(self):
-        if self.operand and self.operation and self.operator:
-            return self.operation()
         if self.operation is None:
             return self.operand
+        if not (self.operand is None or self.operator is None):
+            return self.operation()
 
     @property
     def new(self):
@@ -122,11 +75,11 @@ class Calculator():
 
     def compose_number(self, value):
         if self.operation is None:
-            if self.operand != None and (self.operand%10 == 0) and value < self.operand:
+            if not self.operand is None and self.operand%10 == 0 and value < self.operand:
                 self.operand += value
                 return
         else:
-            if self.operator != None and self.operator %10 == 0 and value < self.operator:
+            if not self.operator is None and self.operator %10 == 0 and value < self.operator:
                 self.operator += value
                 return
         raise FluentSyntaxError({
@@ -238,7 +191,7 @@ class Calculator():
         return self
 
 for name, value in Calculator.numbers.items():
-    setattr(Calculator, name, Calculator.number(Number(value)))
+    setattr(Calculator, name, Calculator.number(value))
     setattr(Calculator, name, property(Calculator.__dict__[name]))
 
 
