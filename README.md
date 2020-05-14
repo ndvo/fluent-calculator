@@ -2,7 +2,7 @@
 
 A Python3 module implementing a Fluent Syntax calculator
 
-This small module was built as an exercise for a job interview.
+This small module was built as an exercise for a job interview. I did not get the job. You shouldn't rely on this code! =D.
 
 It is a calculator that uses the "fluent syntax" as instructed in the exercise.
 
